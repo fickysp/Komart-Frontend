@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="id" style="visibility: hidden; opacity: 0;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Komart - Menu Toko</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+
+  <main class="p-4 md:p-8 max-w-7xl w-full mx-auto space-y-5 md:space-y-6">
+    
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Menu Toko</h1>
+        <p class="text-sm text-slate-500 mt-1">Kelola daftar menu, harga, dan ketersediaan stok harian.</p>
+      </div>
+
+      <button onclick="openMenuModal()" class="px-5 py-2.5 bg-primary hover:bg-blue-700 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer shrink-0">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path></svg>
+        <span>Tambah menu baru</span>
+      </button>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-border/80 p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-2xs">
+      <div class="relative flex-1 max-w-md">
+        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        <input type="text" id="menu-search-input" oninput="renderMenuList()" placeholder="Cari nama menu atau deskripsi..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:bg-white focus:border-primary">
+      </div>
+
+      <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0">
+        <button onclick="setMenuCategory('all')" data-cat="all" class="m-cat-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-100 text-primary transition-colors shrink-0 cursor-pointer">Semua</button>
+        <button onclick="setMenuCategory('Makanan')" data-cat="Makanan" class="m-cat-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-colors shrink-0 cursor-pointer">Makanan</button>
+        <button onclick="setMenuCategory('Minuman')" data-cat="Minuman" class="m-cat-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-colors shrink-0 cursor-pointer">Minuman</button>
+        <button onclick="setMenuCategory('Camilan')" data-cat="Camilan" class="m-cat-btn px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-colors shrink-0 cursor-pointer">Camilan</button>
+      </div>
+    </div>
+
+    <div id="menu-cards-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+
+  </main>
+
+  <div id="menu-form-modal" class="fixed inset-0 z-50 bg-slate-900/50 hidden items-center justify-center p-4 overflow-y-auto backdrop-blur-[1px]">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 space-y-4 shadow-2xl border border-slate-200">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <h3 class="font-extrabold text-lg text-slate-900" id="menu-modal-title">Tambah menu baru</h3>
+        <button onclick="closeMenuModal()" class="p-1.5 rounded-xl text-slate-400 hover:bg-slate-100 cursor-pointer">✕</button>
+      </div>
+
+      <form onsubmit="saveMenuItem(event)" class="space-y-3.5">
+        <input type="hidden" id="mf-id">
+
+        <div>
+          <label class="block text-xs font-bold text-slate-800 mb-1">Nama menu *</label>
+          <input type="text" id="mf-name" required placeholder="Contoh: Nasi Goreng Spesial" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-primary">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">Kategori *</label>
+            <select id="mf-cat" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm bg-white focus:outline-none focus:border-primary">
+              <option value="Makanan">Makanan</option>
+              <option value="Minuman">Minuman</option>
+              <option value="Camilan">Camilan</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-800 mb-1">Harga (Rp) *</label>
+            <input type="number" id="mf-price" required min="1000" step="500" placeholder="25000" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-primary">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-800 mb-1">Deskripsi singkat</label>
+          <textarea id="mf-desc" rows="2" placeholder="Penjelasan komposisi atau rasa menu..." class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-primary"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-800 mb-1">URL Gambar (Opsional)</label>
+          <input type="url" id="mf-img" placeholder="https://..." class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-primary">
+        </div>
+
+        <div class="flex gap-2.5 pt-2">
+          <button type="button" onclick="closeMenuModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold cursor-pointer">Batal</button>
+          <button type="submit" class="flex-1 py-2.5 bg-primary hover:bg-blue-700 text-white rounded-xl text-xs font-bold cursor-pointer">Simpan menu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/menu_toko.js"></script>
+</body>
+</html>
