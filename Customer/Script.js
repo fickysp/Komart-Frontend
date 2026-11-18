@@ -2,6 +2,7 @@ const CART_KEY = "komartCart";
 const ORDER_KEY = "komartOrder";
 const CHECKOUT_KEY = "komartCheckout";
 const HISTORY_KEY = "komartHistory";
+const ADMIN_DB_KEY = "komart_db";
 const SERVICE_FEE = 3000;
 const MONTHS = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
 const MONTHS_SHORT = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Agu", "Sep", "Okt", "Nov", "Des"];
@@ -128,13 +129,57 @@ function makeId(date) {
   return "wj1590" + year + month + day + hour + minute + second;
 }
 
+function pushOrderToAdminDB(order) {
+  const rawDb = localStorage.getItem(ADMIN_DB_KEY);
+  const db = rawDb ? JSON.parse(rawDb) : null;
+
+  const d = new Date(order.date);
+  const timeStr = padNumber(d.getHours()) + ":" + padNumber(d.getMinutes());
+  const notes = order.items.map(i => i.note).filter(n => n && n.trim() !== "").join("; ");
+
+  const adminOrder = {
+    id: order.id,
+    no: queueText(order.queueNumber),
+    customer: order.customerName,
+    phone: order.customerPhone + " • Online",
+    time: timeStr,
+    readyTime: "",
+    status: "Menunggu",
+    payMethod: order.method === "Bayar di kasir" ? "Tunai" : order.method,
+    payStatus: order.method === "Bayar di kasir" ? "Belum dibayar" : "Lunas",
+    trxId: "TRX-" + order.id,
+    note: notes || "Tidak ada catatan khusus.",
+    items: order.items.map(i => ({
+      name: i.name,
+      desc: i.note ? ("Catatan: " + i.note + " (" + serveLabel(i.serveType) + ")") : serveLabel(i.serveType),
+      cat: "Menu",
+      qty: i.quantity,
+      price: i.price,
+      img: i.image
+    }))
+  };
+
+  if (db) {
+    const alreadyExists = db.orders.some(o => o.id === order.id);
+    if (!alreadyExists) {
+      db.orders.push(adminOrder);
+      localStorage.setItem(ADMIN_DB_KEY, JSON.stringify(db));
+    }
+  } else {
+    const pendingRaw = localStorage.getItem("komart_pending_orders");
+    const pending = pendingRaw ? JSON.parse(pendingRaw) : [];
+    pending.push(adminOrder);
+    localStorage.setItem("komart_pending_orders", JSON.stringify(pending));
+  }
+}
+
 function completeOrder() {
   const cart = getCart();
   const checkout = getCheckout();
   const history = getHistory();
   const now = new Date();
   const subtotal = getSubtotal(cart);
-  const queueNumber = 9 + history.length;
+  const queueNumber = 14 + history.length;
 
   let payStatus = "Lunas";
   if (checkout.method === "Bayar di kasir") {
@@ -164,12 +209,16 @@ function completeOrder() {
   history.unshift(order);
   localStorage.setItem(HISTORY_KEY, JSON.stringify(history));
   saveOrder(order);
+  pushOrderToAdminDB(order);
   saveCart([]);
 
   return order;
 }
 
 function queueText(number) {
+  if (number < 10) {
+    return "A-0" + number;
+  }
   return "A-" + number;
 }
 
@@ -188,7 +237,7 @@ function serveLabel(serveType) {
 }
 
 function statusClass(status) {
-  if (status === "Diproses") {
+  if (status === "Diproses" || status === "Siap diambil") {
     return "process";
   } else if (status === "Selesai") {
     return "done";
@@ -202,7 +251,7 @@ function statusClass(status) {
 }
 
 function statusIcon(status) {
-  if (status === "Diproses") {
+  if (status === "Diproses" || status === "Siap diambil") {
     return "skillet";
   } else if (status === "Selesai" || status === "Lunas") {
     return "check_circle";
