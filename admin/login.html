@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Komart - Masuk Akun Pemilik Toko</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="icon" href="../assets/icon.png" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <style type="text/tailwindcss">
+    @theme {
+      --font-sans: "Manrope", sans-serif;
+      --color-primary: #1a66f2;
+      --color-surface: #f8fafc;
+    }
+  </style>
+</head>
+<body class="bg-surface text-slate-900 font-sans min-h-screen flex flex-col justify-between p-5 sm:p-8">
+
+  <div class="max-w-md w-full mx-auto my-auto space-y-6">
+    
+    <div class="flex items-center space-x-3">
+      <img src="../assets/icon.png" alt="Logo Komart" class="w-11 h-11 bg-[#f97316] rounded-2xl text-white flex items-center justify-center font-extrabold text-2xl shadow-xs"/>
+      <span class="font-extrabold text-2xl text-slate-900 tracking-tight">Komart</span>
+    </div>
+
+    <div class="space-y-1.5">
+      <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">Selamat datang!</h1>
+      <p class="text-sm text-slate-500 leading-relaxed">Silahkan Masukkan akun untuk mengelola pesanan di Kantin FILKOM.</p>
+    </div>
+
+    <div class="bg-white rounded-3xl border border-slate-200/80 p-6 sm:p-7 shadow-[0_8px_30px_rgb(0,0,0,0.03)] space-y-5">
+      <h2 class="text-center font-extrabold text-lg text-slate-900">Masuk akun</h2>
+
+
+      <div id="login-error-banner" class="hidden bg-rose-100/80 border border-rose-200 rounded-2xl p-3.5 flex items-start gap-3 text-rose-800">
+        <svg class="w-5 h-5 text-rose-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <p class="text-xs font-medium leading-relaxed">Login gagal. Username atau kata sandi tidak cocok, Masukkan ulang akun.</p>
+      </div>
+
+      <form onsubmit="handleLogin(event)" class="space-y-4">
+
+        <div class="space-y-1.5">
+          <label for="username" class="block text-xs font-bold text-slate-800">Username</label>
+          <div class="relative">
+            <input type="text" id="username" placeholder="Masukkan username" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-2xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all">
+    
+            <svg id="user-err-icon" class="hidden w-5 h-5 text-rose-700 absolute right-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <p id="user-err-text" class="hidden text-xs font-medium text-rose-700 pt-0.5">Periksa kembali username anda.</p>
+        </div>
+
+
+        <div class="space-y-1.5">
+          <label for="password" class="block text-xs font-bold text-slate-800">Password</label>
+          <div class="relative">
+            <input type="password" id="password" placeholder="Masukkan password" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-2xl text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/15 transition-all">
+    
+            <svg id="pass-err-icon" class="hidden w-5 h-5 text-rose-700 absolute right-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          </div>
+          <p id="pass-err-text" class="hidden text-xs font-medium text-rose-700 pt-0.5">Kata sandi tidak sesuai.</p>
+        </div>
+
+
+        <div class="flex items-center justify-between pt-0.5">
+          <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="show-pass" onchange="togglePassword()" class="w-4 h-4 rounded-md border-slate-300 text-primary focus:ring-primary/20 cursor-pointer">
+            <span class="text-xs font-medium text-slate-800">Tampilkan Password</span>
+          </label>
+          <a href="#" onclick="event.preventDefault(); alert('Hubungi administrator Kantin FILKOM untuk reset kata sandi.')" class="text-xs font-bold text-primary hover:underline">Lupa kata sandi?</a>
+        </div>
+
+
+        <button type="submit" class="w-full py-3.5 bg-primary hover:bg-blue-700 text-white rounded-2xl text-sm font-bold shadow-sm transition-colors cursor-pointer mt-1">
+          Masuk
+        </button>
+      </form>
+
+
+      <div class="bg-slate-100/80 rounded-2xl p-3.5 flex items-start gap-3 text-slate-500">
+        <svg class="w-5 h-5 text-slate-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <p class="text-xs leading-relaxed">Akses ini khusus pemilik toko yang berwenang. Harap jaga akun anda dengan baik.</p>
+      </div>
+    </div>
+
+    <p class="text-center text-[11px] text-slate-400">
+      Demo akun: username <strong class="text-slate-600">admin</strong> • password <strong class="text-slate-600">123456</strong> (isi asal untuk simulasi error)
+    </p>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passInput = document.getElementById("password");
+      passInput.type = document.getElementById("show-pass").checked ? "text" : "password";
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const user = document.getElementById("username").value.trim().toLowerCase();
+      const pass = document.getElementById("password").value.trim();
+
+      const banner = document.getElementById("login-error-banner");
+      const userInput = document.getElementById("username");
+      const passInput = document.getElementById("password");
+      const userIcon = document.getElementById("user-err-icon");
+      const passIcon = document.getElementById("pass-err-icon");
+      const userText = document.getElementById("user-err-text");
+      const passText = document.getElementById("pass-err-text");
+
+      // Akun demo valid
+      if ((user === "admin" || user === "raka") && pass === "123456") {
+        window.location.href = "index.html";
+      } else {
+        // Tampilkan state error persis seperti desain image_3628c4.png
+        banner.classList.remove("hidden");
+        
+        userInput.classList.remove("border-slate-300");
+        userInput.classList.add("border-rose-700");
+        userIcon.classList.remove("hidden");
+        userText.classList.remove("hidden");
+
+        passInput.classList.remove("border-slate-300");
+        passInput.classList.add("border-rose-700");
+        passIcon.classList.remove("hidden");
+        passText.classList.remove("hidden");
+      }
+    }
+  </script>
+</body>
+</html>
