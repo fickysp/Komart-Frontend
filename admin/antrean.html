@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="id" style="visibility: hidden; opacity: 0;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Komart - Antrean</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+
+  <main class="p-4 md:p-8 max-w-7xl w-full mx-auto space-y-5 md:space-y-6">
+    
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Antrean</h1>
+        <p class="text-sm text-slate-500 mt-1 md:hidden">Senin, 12 Oktober • Dapur Nusantara</p>
+      </div>
+      
+      <button onclick="callNextWaiting()" class="hidden md:flex px-5 py-2.5 bg-primary hover:bg-blue-700 text-white rounded-xl text-xs font-semibold items-center justify-center gap-2 shadow-sm transition-colors cursor-pointer">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path></svg>
+        <span>Panggil berikutnya</span>
+      </button>
+    </div>
+
+    <div class="flex items-center justify-between gap-3">
+      <div class="flex items-center gap-3 text-sm">
+        <label class="inline-flex items-center cursor-pointer bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl md:rounded-full transition-colors" id="store-status-badge">
+          <input type="checkbox" id="store-toggle" class="sr-only peer" checked onchange="toggleStoreStatus()">
+          <div class="relative w-8 h-4 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-3 after:w-3 after:transition-all peer-checked:bg-emerald-600"></div>
+          <span id="store-status-text" class="ms-2 text-xs font-bold text-emerald-700">Toko buka</span>
+        </label>
+        <span class="hidden md:inline text-slate-500 text-sm font-medium">Senin, 12 Oktober • 08:00–16:00</span>
+      </div>
+
+      <a href="profile.html" class="px-3 md:px-4 py-2 md:bg-white md:border md:border-border rounded-xl text-xs font-bold md:font-semibold text-primary md:text-slate-700 hover:bg-slate-50 flex items-center justify-center gap-2 transition-colors md:shadow-2xs cursor-pointer">
+        <svg class="w-4 h-4 text-slate-500 hidden md:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+        <span>Atur jam buka</span>
+      </a>
+    </div>
+
+    <div class="hidden md:grid grid-cols-4 gap-4" id="queue-stats-grid"></div>
+
+    <div id="ready-pickup-section" class="space-y-3"></div>
+
+    <div class="bg-white rounded-2xl border border-border/80 overflow-hidden shadow-2xs">
+      <div class="p-4 md:p-5 border-b border-border flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <h2 class="font-extrabold text-base md:text-lg text-slate-900">Daftar pesanan aktif</h2>
+          <p class="text-[11px] text-slate-400 mt-0.5">Kelola alur dari Menunggu → Diproses → Siap diambil → Serah terima</p>
+        </div>
+
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 md:pb-0" id="queue-filter-tabs">
+          <button onclick="setQueueFilter('all')" data-filter="all" class="q-tab px-3.5 py-2 rounded-xl text-xs font-bold bg-blue-100 text-primary transition-colors shrink-0 cursor-pointer">Semua</button>
+          <button onclick="setQueueFilter('Siap diambil')" data-filter="Siap diambil" class="q-tab px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-colors shrink-0 cursor-pointer">Siap diambil</button>
+          <button onclick="setQueueFilter('Diproses')" data-filter="Diproses" class="q-tab px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-colors shrink-0 cursor-pointer">Diproses</button>
+          <button onclick="setQueueFilter('Menunggu')" data-filter="Menunggu" class="q-tab px-3.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-colors shrink-0 cursor-pointer">Menunggu</button>
+        </div>
+      </div>
+
+      <div class="md:hidden divide-y divide-border" id="mobile-queue-list"></div>
+
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+          <thead>
+            <tr class="bg-slate-50/50 border-b border-border text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
+              <th class="py-3.5 px-6">Nomor</th>
+              <th class="py-3.5 px-6">Pelanggan</th>
+              <th class="py-3.5 px-6">Detail menu</th>
+              <th class="py-3.5 px-6">Pembayaran</th>
+              <th class="py-3.5 px-6">Status</th>
+              <th class="py-3.5 px-6 text-right">Tindakan</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border text-sm" id="desktop-queue-table"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <div id="handover-modal" class="fixed inset-0 z-50 bg-slate-900/50 hidden items-center justify-center p-4 overflow-y-auto backdrop-blur-[1px]">
+    <div class="bg-surface rounded-3xl max-w-md w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200">
+      <div class="sticky top-0 z-10 bg-white px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+        <button onclick="closeHandoverModal()" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline cursor-pointer">
+          <span>‹ Kembali</span>
+        </button>
+        <span class="text-[11px] font-semibold text-slate-400">Verifikasi Pengambilan</span>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-4">
+        <div>
+          <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">Serah terima pesanan</h3>
+          <p class="text-xs text-slate-500 mt-1">Cocokkan nomor sebelum menyerahkan.</p>
+          <p class="text-[11px] text-slate-400 mt-0.5" id="ho-timestamp">Senin, 12 Oktober 2026 • 12:50 WIB</p>
+        </div>
+
+        <div class="bg-blue-100/75 border border-blue-200/80 rounded-2xl p-4 sm:p-5 space-y-1.5">
+          <span class="text-[11px] font-extrabold text-primary block">Siap diambil</span>
+          <div class="text-4xl font-extrabold text-slate-900 tracking-tight" id="ho-target-no">A-10</div>
+          <div class="text-base font-extrabold text-slate-900 pt-0.5" id="ho-customer">Siska Putri</div>
+          <div class="text-xs font-medium text-slate-700" id="ho-items-summary">4 menu / 6 item • Siap 12:50</div>
+          <p class="text-[11px] text-slate-500 pt-1">Pelanggan diberi notifikasi saat pesanan ditandai siap.</p>
+        </div>
+
+        <div class="space-y-1.5">
+          <label for="ho-verify-input" class="block text-xs font-bold text-slate-800">Nomor antrean pelanggan</label>
+          <input type="text" id="ho-verify-input" oninput="validateHandoverInput()" placeholder="Contoh: A-10" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 uppercase focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all">
+        </div>
+
+        <div id="ho-mismatch-alert" class="hidden bg-rose-100/80 border border-rose-200 rounded-2xl p-4 space-y-1 text-rose-900">
+          <div class="font-extrabold text-sm text-rose-800">Nomor tidak cocok</div>
+          <p class="text-xs leading-relaxed text-rose-800" id="ho-mismatch-text"></p>
+        </div>
+
+        <div id="ho-match-alert" class="hidden bg-emerald-50 border border-emerald-200 rounded-2xl p-3.5 flex items-center gap-2.5 text-emerald-800">
+          <svg class="w-5 h-5 text-emerald-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span class="text-xs font-bold">Nomor antrean cocok! Silakan centang konfirmasi di bawah.</span>
+        </div>
+
+        <div class="bg-white rounded-2xl border border-border/80 p-4 space-y-2 shadow-2xs">
+          <div class="flex justify-between items-center text-xs">
+            <span class="font-semibold text-slate-600" id="ho-pay-status">QRIS • Lunas</span>
+            <span class="font-extrabold text-sm text-slate-900" id="ho-total">Rp130.000</span>
+          </div>
+          <div class="flex justify-between items-center text-xs">
+            <span class="text-slate-500">Sisa pembayaran</span>
+            <span class="font-extrabold text-slate-900" id="ho-remaining">Rp0</span>
+          </div>
+          <p class="text-[11px] text-slate-400 pt-0.5" id="ho-pay-note">Tidak perlu menerima pembayaran lagi.</p>
+        </div>
+
+        <label class="flex items-start gap-3 cursor-pointer select-none pt-1">
+          <input type="checkbox" id="ho-confirm-check" onchange="validateHandoverInput()" class="w-4 h-4 mt-0.5 rounded border-slate-300 text-primary focus:ring-primary/20 cursor-pointer">
+          <span class="text-xs font-medium text-slate-800 leading-relaxed">Saya sudah memeriksa kantong dan nomor antrean pelanggan.</span>
+        </label>
+
+        <div class="space-y-2.5 pt-1">
+          <button type="button" id="ho-submit-btn" disabled onclick="confirmHandover()" class="w-full py-3.5 bg-slate-300 text-slate-500 rounded-2xl text-xs font-bold transition-colors cursor-not-allowed">
+            Serahkan & selesaikan
+          </button>
+          <button type="button" onclick="resetHandoverInput()" class="w-full py-3 bg-white hover:bg-slate-50 text-primary border border-border rounded-2xl text-xs font-bold transition-colors cursor-pointer">
+            Periksa ulang nomor
+          </button>
+        </div>
+
+        <p class="text-center text-[11px] text-slate-400">Setelah dikonfirmasi, status pesanan menjadi Selesai.</p>
+      </div>
+    </div>
+  </div>
+
+  <div id="cancel-modal" class="fixed inset-0 z-50 bg-slate-900/50 hidden items-center justify-center p-4 overflow-y-auto backdrop-blur-[1px]">
+    <div class="bg-surface rounded-3xl max-w-3xl w-full max-h-[92vh] overflow-y-auto shadow-2xl border border-slate-200">
+      <div class="sticky top-0 z-10 bg-white px-5 sm:px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+        <button onclick="closeCancelModal()" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline cursor-pointer">
+          <span>‹ Kembali ke Antrean</span>
+        </button>
+        <span class="text-[11px] font-semibold text-rose-700">Pembatalan Pesanan</span>
+      </div>
+
+      <div class="p-5 sm:p-6 space-y-5">
+        <div>
+          <h3 class="text-2xl font-extrabold text-slate-900 tracking-tight">Batalkan pesanan</h3>
+          <p class="text-xs text-slate-500 mt-1">Alasan pembatalan wajib diberitahukan kepada pelanggan.</p>
+          <p class="text-[11px] text-slate-400 mt-0.5">Senin, 12 Oktober 2026 • 12:45 WIB</p>
+        </div>
+
+        <div class="hidden md:flex bg-blue-100/75 border border-blue-200/80 rounded-2xl p-4 px-5 items-center justify-between">
+          <div class="flex items-center gap-4">
+            <span class="text-3xl font-extrabold text-primary" id="cn-desk-no">A-11</span>
+            <div>
+              <div class="font-extrabold text-base text-slate-900" id="cn-desk-customer">Bima Kurnia</div>
+              <div class="text-xs text-slate-600" id="cn-desk-sub">Masuk 12:37 • 1 menu / 1 item</div>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-lg text-xs font-bold bg-amber-100 text-amber-800" id="cn-desk-status">Menunggu antrean</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+          <div class="md:col-span-7 bg-white rounded-2xl border border-border/80 p-5 space-y-4 shadow-2xs">
+            <h4 class="hidden md:block font-extrabold text-base text-slate-900">Alasan pembatalan</h4>
+
+            <div class="md:hidden bg-slate-50 rounded-2xl p-4 space-y-2 border border-border/60">
+              <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-amber-100 text-amber-800" id="cn-mob-status">Menunggu antrean</span>
+              <div class="text-xl font-extrabold text-slate-900" id="cn-mob-title">A-11 • Bima Kurnia</div>
+              <div class="text-xs text-slate-500" id="cn-mob-items">Mie Tek-Tek • 1 × Rp28.000 • Masuk 12:37</div>
+              <div class="flex justify-between items-center pt-1 text-xs">
+                <span class="text-slate-500" id="cn-mob-pay">Total dibayar • QRIS</span>
+                <span class="font-extrabold text-sm text-slate-900" id="cn-mob-total">Rp31.000</span>
+              </div>
+              <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold bg-blue-100 text-primary" id="cn-mob-paybadge">Lunas</span>
+            </div>
+
+            <div class="space-y-1.5">
+              <label for="cn-reason-input" class="block text-xs font-bold text-slate-800">Alasan pembatalan <span class="text-rose-600">*</span></label>
+              <input type="text" id="cn-reason-input" oninput="checkCancelReason()" placeholder="Contoh: Bahan Mie Tek-Tek habis" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-2xl text-sm text-slate-900 focus:outline-none focus:border-rose-700 focus:ring-2 focus:ring-rose-500/15 transition-all">
+              
+              <div class="flex flex-wrap gap-1.5 pt-1">
+                <button type="button" onclick="setQuickCancelReason('Bahan baku menu habis')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-[11px] font-medium cursor-pointer">Bahan baku habis</button>
+                <button type="button" onclick="setQuickCancelReason('Antrean dapur terlalu penuh')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-[11px] font-medium cursor-pointer">Dapur penuh</button>
+                <button type="button" onclick="setQuickCancelReason('Permintaan pembatalan dari pelanggan')" class="px-2.5 py-1 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg text-[11px] font-medium cursor-pointer">Permintaan pelanggan</button>
+              </div>
+              <p class="text-[11px] text-slate-400 pt-0.5">Wajib diisi. Tulis alasan yang jelas; teks ini akan terlihat oleh pelanggan.</p>
+            </div>
+
+            <div class="bg-rose-100/80 border border-rose-200 rounded-2xl p-4 space-y-1 text-rose-900">
+              <div class="font-extrabold text-sm text-rose-800">Pesanan tidak akan dilayani</div>
+              <p class="text-xs leading-relaxed text-rose-800" id="cn-warning-text"></p>
+            </div>
+
+            <div class="space-y-2.5 pt-1">
+              <button type="button" id="cn-confirm-btn" disabled onclick="executeCancelOrder()" class="w-full py-3.5 bg-slate-300 text-slate-500 rounded-2xl text-xs font-bold transition-colors cursor-not-allowed">
+                Konfirmasi pembatalan
+              </button>
+              <button type="button" onclick="closeCancelModal()" class="w-full py-3 bg-white hover:bg-slate-50 text-primary border border-border rounded-2xl text-xs font-bold transition-colors cursor-pointer">
+                Pertahankan pesanan
+              </button>
+            </div>
+          </div>
+
+          <div class="md:col-span-5 space-y-4">
+            <div class="hidden md:block bg-white rounded-2xl border border-border/80 p-5 space-y-3 shadow-2xs">
+              <h4 class="font-extrabold text-base text-slate-900">Ringkasan pesanan</h4>
+              <p class="text-xs text-slate-500" id="cn-desk-items"></p>
+              <div class="flex justify-between items-center text-xs pt-1">
+                <span class="text-slate-500" id="cn-desk-pay">Total dibayar • QRIS</span>
+                <span class="font-extrabold text-base text-slate-900" id="cn-desk-total">Rp31.000</span>
+              </div>
+              <span class="inline-block px-3 py-1 rounded-lg text-xs font-bold bg-blue-100 text-primary" id="cn-desk-paybadge">Lunas</span>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-border/80 p-5 space-y-2.5 shadow-2xs">
+              <h4 class="font-extrabold text-base text-slate-900">Informasi pengembalian dana</h4>
+              <div class="flex justify-between items-center text-xs">
+                <span class="text-slate-500">Pembayaran diterima</span>
+                <span class="font-extrabold text-sm text-slate-900" id="cn-refund-amount">Rp31.000</span>
+              </div>
+              <p class="text-xs text-slate-700 leading-relaxed" id="cn-refund-status"></p>
+              <p class="text-[11px] text-slate-400 leading-relaxed pt-1">
+                Pesanan yang telah dibayar dikembalikan otomatis sesuai ketentuan metode pembayaran pelanggan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/antrean.js"></script>
+</body>
+</html>
