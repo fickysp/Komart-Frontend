@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Riwayat | Komart</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  <link rel="icon" href="../assets/icon.png">
+  <link rel="stylesheet" href="Style.css">
+</head>
+<body>
+
+  <header class="top-bar">
+    <div class="top-inner">
+      <a href="Beranda.html" class="brand">
+        <img src="../assets/icon.png" alt="Logo Komart" class="brand-logo">
+        Komart
+      </a>
+
+      <nav class="top-nav">
+        <a href="Beranda.html" class="top-link">
+          <span class="icon">home</span>
+          Beranda
+        </a>
+        <a href="AntreanToko.html" class="top-link">
+          <span class="icon">format_list_bulleted</span>
+          Antrean
+        </a>
+        <a href="Keranjang.html" class="top-link">
+          <span class="nav-icon">
+            <span class="icon">shopping_bag</span>
+            <span class="cart-badge d-none">0</span>
+          </span>
+          Keranjang
+        </a>
+        <a href="Riwayat.html" class="top-link active">
+          <span class="icon">history</span>
+          Riwayat
+        </a>
+      </nav>
+
+      <button type="button" class="bell-btn" aria-label="Notifikasi">
+        <span class="icon">notifications</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="page pt-2">
+
+    <div id="emptyHistory">
+      <div class="page-head">
+        <button type="button" class="back-btn" id="backBtn" aria-label="Kembali">
+          <span class="icon">arrow_back</span>
+        </button>
+        <h1 class="page-title">Riwayat</h1>
+      </div>
+
+      <section class="empty-card">
+        <div class="empty-icon">
+          <span class="icon">history</span>
+        </div>
+        <h2 class="empty-title">Belum ada riwayat pesanan</h2>
+        <p class="empty-text">Pesanan yang selesai atau dibatalkan akan muncul di sini.<br>Yuk, pilih menu pertamamu.</p>
+        <a href="Beranda.html" class="main-btn empty-btn">Lihat menu hari ini</a>
+      </section>
+    </div>
+
+    <div class="d-none" id="filledHistory">
+      <h1 class="page-title">Riwayat pesanan</h1>
+      <p class="page-sub">Lihat pesananmu dan pesan kembali menu favoritmu.</p>
+
+      <div class="chip-group mt-3">
+        <button type="button" class="chip history-filter active" data-status="Semua">Semua</button>
+        <button type="button" class="chip history-filter" data-status="Selesai">Selesai</button>
+        <button type="button" class="chip history-filter" data-status="Dibatalkan">Dibatalkan</button>
+      </div>
+
+      <div id="historyList"></div>
+      <p class="empty-note d-none" id="emptyFilter">Belum ada pesanan dengan status ini.</p>
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+      <a href="Beranda.html" class="bottom-link">
+        <span class="icon">home</span>
+        Beranda
+      </a>
+      <a href="AntreanToko.html" class="bottom-link">
+        <span class="icon">format_list_bulleted</span>
+        Antrean
+      </a>
+      <a href="Keranjang.html" class="bottom-link">
+        <span class="nav-icon">
+          <span class="icon">shopping_bag</span>
+          <span class="cart-badge d-none">0</span>
+        </span>
+        Keranjang
+      </a>
+      <a href="Riwayat.html" class="bottom-link active">
+        <span class="icon">history</span>
+        Riwayat
+      </a>
+  </nav>
+
+  <script src="Script.js"></script>
+  <script src="Riwayat.js"></script>
+</body>
+</html>
