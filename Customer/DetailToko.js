@@ -1,28 +1,177 @@
 const STORE_LIST = [
-  { id: "KedaiNasiMadura", name: "Kedai Nasi Madura", desc: "Gurih, bumbu khas Nusa Madura", rating: "4,9 (2,1RB)", queue: 10, serving: 15, open: "08.00", close: "17.00" },
-  { id: "TahuLontong", name: "Tahu Lontong Lemongan", desc: "Tahu lontong khas Lamongan", rating: "4,9 (312)", queue: 7, serving: 6, open: "08.00", close: "17.00" },
-  { id: "WarungJakarta", name: "Warung Jakarta", desc: "Soto Betawi dan es teh legendaris", rating: "5,0 (1,5RB)", queue: 9, serving: 8, open: "07.00", close: "16.00" },
-  { id: "DapurNusantara", name: "Dapur Nusantara", desc: "Nasi goreng dan mie rumahan", rating: "4,9 (980)", queue: 4, serving: 3, open: "09.00", close: "21.00" }
+  {
+    id: "KedaiNasiMadura",
+    name: "Kedai Nasi Madura",
+    desc: "Gurih, bumbu khas Nusa Madura",
+    rating: "4,9 (2,1RB)",
+    queue: 10,
+    serving: 15,
+    open: "08.00",
+    close: "17.00",
+  },
+  {
+    id: "TahuLontong",
+    name: "Tahu Lontong Lemongan",
+    desc: "Tahu lontong khas Lamongan",
+    rating: "4,9 (312)",
+    queue: 7,
+    serving: 6,
+    open: "08.00",
+    close: "17.00",
+  },
+  {
+    id: "WarungJakarta",
+    name: "Warung Jakarta",
+    desc: "Soto Betawi dan es teh legendaris",
+    rating: "5,0 (1,5RB)",
+    queue: 9,
+    serving: 8,
+    open: "07.00",
+    close: "16.00",
+  },
+  {
+    id: "DapurNusantara",
+    name: "Dapur Nusantara",
+    desc: "Nasi goreng dan mie rumahan",
+    rating: "4,9 (980)",
+    queue: 4,
+    serving: 3,
+    open: "09.00",
+    close: "21.00",
+  },
 ];
 
 const MENU_LIST = [
-  { id: "EsTehManis", name: "Es Teh Manis", store: "Warung Jakarta", category: "Drink", price: 8000, rating: "5,0 (1,5RB)", sold: "300", time: "5 - 10 menit" },
-  { id: "SotoBetawi", name: "Soto Betawi", store: "Warung Jakarta", category: "Food", price: 15000, rating: "5,0 (1,5RB)", sold: "140", time: "25 - 30 menit" },
-  { id: "EsJeruk", name: "Es Jeruk", store: "Warung Jakarta", category: "Drink", price: 10000, rating: "4,9 (860)", sold: "220", time: "5 - 10 menit" },
-  { id: "NasiGoreng", name: "Nasi Goreng Kampung", store: "Dapur Nusantara", category: "Food", price: 32000, rating: "4,9 (980)", sold: "260", time: "20 - 25 menit" },
-  { id: "MieTekTek", name: "Mie Tek-Tek", store: "Dapur Nusantara", category: "Food", price: 28000, rating: "4,8 (720)", sold: "190", time: "20 - 25 menit" },
-  { id: "TehTarik", name: "Teh Tarik", store: "Dapur Nusantara", category: "Drink", price: 12000, rating: "4,7 (310)", sold: "120", time: "5 - 10 menit" },
-  { id: "AyamGeprek", name: "Ayam Geprek", store: "Kedai Nasi Madura", category: "Food", price: 22000, rating: "4,8 (2,1RB)", sold: "410", time: "15 - 20 menit" },
-  { id: "NasiBebek", name: "Nasi Bebek Madura", store: "Kedai Nasi Madura", category: "Food", price: 25000, rating: "4,9 (1,1RB)", sold: "290", time: "20 - 25 menit" },
-  { id: "KopiSusu", name: "Kopi Susu", store: "Kedai Nasi Madura", category: "Drink", price: 15000, rating: "4,8 (1,2RB)", sold: "350", time: "5 - 10 menit" },
-  { id: "TahuLontong", name: "Tahu Lontong", store: "Tahu Lontong Lemongan", category: "Food", price: 13000, rating: "4,9 (210)", sold: "150", time: "10 - 15 menit" },
-  { id: "TahuCampur", name: "Tahu Campur", store: "Tahu Lontong Lemongan", category: "Food", price: 15000, rating: "4,8 (96)", sold: "80", time: "10 - 15 menit" },
-  { id: "EsKelapa", name: "Es Kelapa Muda", store: "Tahu Lontong Lemongan", category: "Drink", price: 10000, rating: "4,8 (64)", sold: "70", time: "5 - 10 menit" }
+  {
+    id: "EsTehManis",
+    name: "Es Teh Manis",
+    store: "Warung Jakarta",
+    category: "Drink",
+    price: 8000,
+    rating: "5,0 (1,5RB)",
+    sold: "300",
+    time: "5 - 10 menit",
+  },
+  {
+    id: "SotoBetawi",
+    name: "Soto Betawi",
+    store: "Warung Jakarta",
+    category: "Food",
+    price: 15000,
+    rating: "5,0 (1,5RB)",
+    sold: "140",
+    time: "25 - 30 menit",
+  },
+  {
+    id: "EsJeruk",
+    name: "Es Jeruk",
+    store: "Warung Jakarta",
+    category: "Drink",
+    price: 10000,
+    rating: "4,9 (860)",
+    sold: "220",
+    time: "5 - 10 menit",
+  },
+  {
+    id: "NasiGoreng",
+    name: "Nasi Goreng Kampung",
+    store: "Dapur Nusantara",
+    category: "Food",
+    price: 32000,
+    rating: "4,9 (980)",
+    sold: "260",
+    time: "20 - 25 menit",
+  },
+  {
+    id: "MieTekTek",
+    name: "Mie Tek-Tek",
+    store: "Dapur Nusantara",
+    category: "Food",
+    price: 28000,
+    rating: "4,8 (720)",
+    sold: "190",
+    time: "20 - 25 menit",
+  },
+  {
+    id: "TehTarik",
+    name: "Teh Tarik",
+    store: "Dapur Nusantara",
+    category: "Drink",
+    price: 12000,
+    rating: "4,7 (310)",
+    sold: "120",
+    time: "5 - 10 menit",
+  },
+  {
+    id: "AyamGeprek",
+    name: "Ayam Geprek",
+    store: "Kedai Nasi Madura",
+    category: "Food",
+    price: 22000,
+    rating: "4,8 (2,1RB)",
+    sold: "410",
+    time: "15 - 20 menit",
+  },
+  {
+    id: "NasiBebek",
+    name: "Nasi Bebek Madura",
+    store: "Kedai Nasi Madura",
+    category: "Food",
+    price: 25000,
+    rating: "4,9 (1,1RB)",
+    sold: "290",
+    time: "20 - 25 menit",
+  },
+  {
+    id: "KopiSusu",
+    name: "Kopi Susu",
+    store: "Kedai Nasi Madura",
+    category: "Drink",
+    price: 15000,
+    rating: "4,8 (1,2RB)",
+    sold: "350",
+    time: "5 - 10 menit",
+  },
+  {
+    id: "TahuLontong",
+    name: "Tahu Lontong",
+    store: "Tahu Lontong Lemongan",
+    category: "Food",
+    price: 13000,
+    rating: "4,9 (210)",
+    sold: "150",
+    time: "10 - 15 menit",
+  },
+  {
+    id: "TahuCampur",
+    name: "Tahu Campur",
+    store: "Tahu Lontong Lemongan",
+    category: "Food",
+    price: 15000,
+    rating: "4,8 (96)",
+    sold: "80",
+    time: "10 - 15 menit",
+  },
+  {
+    id: "EsKelapa",
+    name: "Es Kelapa Muda",
+    store: "Tahu Lontong Lemongan",
+    category: "Drink",
+    price: 10000,
+    rating: "4,8 (64)",
+    sold: "70",
+    time: "5 - 10 menit",
+  },
 ];
 
 const MINUTES_EACH = 3;
 
 let storeMenus = [];
+
+function getAdminDB() {
+  const raw = localStorage.getItem("komart_db");
+  return raw ? JSON.parse(raw) : null;
+}
 
 function findStore() {
   const params = new URLSearchParams(window.location.search);
@@ -30,17 +179,47 @@ function findStore() {
 
   for (let i = 0; i < STORE_LIST.length; i++) {
     if (STORE_LIST[i].id === storeId) {
-      return STORE_LIST[i];
+      const store = Object.assign({}, STORE_LIST[i]);
+      if (store.id === "DapurNusantara") {
+        const db = getAdminDB();
+        if (db && db.store) {
+          store.name = db.store.name;
+          store.desc = db.store.location + " • " + store.desc;
+          store.queue = db.orders.length;
+          store.forceOpen = db.store.isOpen;
+          store.customHours = db.store.hours;
+        }
+      }
+      return store;
     }
   }
   return null;
 }
 
-function getMenus(storeName) {
+function getMenus(store) {
+  if (store.id === "DapurNusantara") {
+    const db = getAdminDB();
+    if (db && Array.isArray(db.menus) && db.menus.length > 0) {
+      return db.menus
+        .filter((m) => m.available !== false)
+        .map((m) => ({
+          id: "MenuAdmin" + m.id,
+          name: m.name,
+          store: db.store.name,
+          category: m.cat === "Minuman" ? "Drink" : "Food",
+          price: m.price,
+          image: m.img,
+          rating: "4,9 (Baru)",
+          sold: "120+",
+          time: (db.store.estMinutes || 15) + " menit",
+        }));
+    }
+  }
+
   const result = [];
   for (let i = 0; i < MENU_LIST.length; i++) {
     const menu = MENU_LIST[i];
-    if (menu.store === storeName) {
+    if (menu.store === store.name) {
       menu.image = "../assets/" + menu.id + ".jpg";
       result.push(menu);
     }
@@ -51,14 +230,20 @@ function getMenus(storeName) {
 function showStore(store) {
   document.title = store.name + " | Komart";
   document.getElementById("storeTitle").textContent = store.name;
-  document.getElementById("storeImage").src = "../assets/Toko" + store.id + ".jpg";
+  document.getElementById("storeImage").src =
+    "../assets/Toko" + store.id + ".jpg";
   document.getElementById("storeImage").alt = store.name;
   document.getElementById("storeDesc").textContent = store.desc;
   document.getElementById("storeRating").textContent = store.rating;
-  document.getElementById("storeHours").textContent = store.open + "-" + store.close;
+  document.getElementById("storeHours").textContent =
+    store.customHours || store.open + "-" + store.close;
 
   const storeStatus = document.getElementById("storeStatus");
-  if (isOpen(store.open, store.close)) {
+  const openNow =
+    typeof store.forceOpen === "boolean"
+      ? store.forceOpen
+      : isOpen(store.open, store.close);
+  if (openNow) {
     storeStatus.textContent = "Buka";
     storeStatus.classList.remove("closed");
   } else {
@@ -69,20 +254,30 @@ function showStore(store) {
 
 function showQueue(store) {
   document.getElementById("statQueue").textContent = store.queue;
-  document.getElementById("statServing").textContent = servingText(store.serving);
-  document.getElementById("statTime").textContent = "±" + (store.queue * MINUTES_EACH);
+  document.getElementById("statServing").textContent = servingText(
+    store.serving,
+  );
+  document.getElementById("statTime").textContent =
+    "±" + store.queue * MINUTES_EACH;
 
   const order = getOrder();
   if (order === null) {
     return;
   }
 
-  const sameStore = order.storeName.includes(store.name);
-  const stillWaiting = order.status === "Menunggu" || order.status === "Diproses";
+  const sameStore =
+    order.storeName.includes(store.name) ||
+    order.storeName.includes("Dapur Nusantara");
+  const stillWaiting =
+    order.status === "Menunggu" ||
+    order.status === "Diproses" ||
+    order.status === "Siap diambil";
 
   if (sameStore && stillWaiting) {
     const myQueue = document.getElementById("myQueue");
-    document.getElementById("myNumber").textContent = queueText(order.queueNumber);
+    document.getElementById("myNumber").textContent = queueText(
+      order.queueNumber,
+    );
     myQueue.href = "DetailPesanan.html?id=" + order.id;
     myQueue.classList.remove("d-none");
   }
@@ -112,7 +307,8 @@ function showMenus() {
     html = html + menuCard(storeMenus[i], i);
   }
   document.getElementById("menuList").innerHTML = html;
-  document.getElementById("menuCount").textContent = storeMenus.length + " menu";
+  document.getElementById("menuCount").textContent =
+    storeMenus.length + " menu";
 
   const cards = document.getElementsByClassName("menu-card");
   for (let i = 0; i < cards.length; i++) {
@@ -132,8 +328,11 @@ function updateBar() {
     return;
   }
 
-  document.getElementById("barCount").textContent = cart.length + " menu di keranjang";
-  document.getElementById("barTotal").textContent = formatRupiah(getSubtotal(cart));
+  document.getElementById("barCount").textContent =
+    cart.length + " menu di keranjang";
+  document.getElementById("barTotal").textContent = formatRupiah(
+    getSubtotal(cart),
+  );
   cartBar.classList.remove("d-none");
 }
 
@@ -145,7 +344,7 @@ function showPage() {
     return;
   }
 
-  storeMenus = getMenus(store.name);
+  storeMenus = getMenus(store);
 
   showStore(store);
   showQueue(store);
@@ -155,6 +354,12 @@ function showPage() {
 
 modalBox.addEventListener("hidden.bs.modal", function () {
   updateBar();
+});
+
+window.addEventListener("storage", function (e) {
+  if (e.key === "komart_db" || e.key === "komartOrder") {
+    showPage();
+  }
 });
 
 showPage();
