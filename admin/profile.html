@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="id" style="visibility: hidden; opacity: 0;">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Komart - Akun & Pengaturan</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+
+  <main class="p-4 md:p-8 max-w-2xl w-full mx-auto space-y-5">
+    
+    <div>
+      <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline">
+        <span>‹ Kembali</span>
+      </a>
+    </div>
+
+    <div>
+      <h1 class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight">Akun & pengaturan</h1>
+      <p class="text-sm text-slate-500 mt-1">Pengaturan khusus pemilik toko.</p>
+      <p class="text-xs text-slate-400 mt-0.5">Senin, 12 Oktober 2026 • 12:45 WIB</p>
+    </div>
+
+    <div class="bg-blue-100/75 border border-blue-200/80 rounded-3xl p-5 sm:p-6 space-y-1.5 shadow-2xs">
+      <span class="inline-block px-3 py-1 rounded-lg text-[11px] font-bold bg-emerald-100 text-emerald-800">Pemilik toko</span>
+      <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight pt-1">${}</h2>
+      <div class="text-base font-bold text-slate-800">${cardLoc}</div>
+      <div class="text-xs font-medium text-slate-600"></div>
+    </div>
+
+    <div class="bg-white rounded-3xl border border-border/80 p-5 sm:p-6 space-y-4 shadow-2xs">
+      <h3 class="font-extrabold text-base text-slate-900">Operasional toko</h3>
+
+      <div class="flex items-center gap-2.5">
+        <button type="button" id="btn-toko-buka" onclick="setOperasionalStatus(true)" class="px-4 py-2.5 rounded-xl text-xs font-bold bg-blue-100 text-primary transition-colors cursor-pointer">
+          Toko buka
+        </button>
+        <button type="button" id="btn-toko-tutup" onclick="setOperasionalStatus(false)" class="px-4 py-2.5 rounded-xl text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200/70 transition-colors cursor-pointer">
+          Toko tutup
+        </button>
+      </div>
+
+      <p class="text-xs text-slate-500 leading-relaxed">
+        Toko tutup menghentikan pesanan baru. Selesaikan pesanan aktif yang sudah diterima.
+      </p>
+
+      <div class="space-y-1.5">
+        <label for="jam-operasional" class="block text-xs font-bold text-slate-800">Jam operasional</label>
+        <select id="jam-operasional" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-2xl text-sm font-medium text-slate-900 focus:outline-none focus:border-primary cursor-pointer">
+          <option value="09:00–16:00 WIB" selected>09:00–16:00 WIB</option>
+          <option value="08:00–16:00 WIB">08:00–16:00 WIB</option>
+          <option value="08:00–17:00 WIB">08:00–17:00 WIB</option>
+          <option value="10:00–20:00 WIB">10:00–20:00 WIB</option>
+        </select>
+        <p class="text-[11px] text-slate-400 pt-0.5">Contoh pengaturan jam • sesuaikan jadwal toko.</p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl border border-border/80 p-5 sm:p-6 space-y-3 shadow-2xs">
+      <h3 class="font-extrabold text-base text-slate-900">Estimasi antrean</h3>
+
+      <div class="space-y-1.5">
+        <label for="estimasi-menit" class="block text-xs font-bold text-slate-800">Estimasi per pesanan (menit)</label>
+        <input type="number" id="estimasi-menit" value="15" min="1" max="120" class="w-full px-4 py-3 bg-white border border-slate-300 rounded-2xl text-sm font-bold text-slate-900 focus:outline-none focus:border-primary">
+        <p class="text-[11px] text-slate-400 leading-relaxed pt-0.5">
+          Contoh pengaturan. Sesuaikan dengan beban dapur; estimasi tiap pesanan tetap perlu ditinjau.
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl border border-border/80 p-5 sm:p-6 space-y-4 shadow-2xs">
+      <h3 class="font-extrabold text-base text-slate-900">Notifikasi</h3>
+
+      <div class="flex items-center justify-between gap-3">
+        <div>
+          <div class="font-bold text-sm text-slate-900">Pesanan masuk</div>
+          <div class="text-xs text-slate-400 mt-0.5">Peringatan saat pesanan baru diterima.</div>
+        </div>
+        <button type="button" onclick="toggleNotifItem(this)" data-active="true" class="text-xs font-bold text-primary hover:underline cursor-pointer shrink-0">
+          ✓ Aktif
+        </button>
+      </div>
+
+      <div class="flex items-center justify-between gap-3 pt-1">
+        <div>
+          <div class="font-bold text-sm text-slate-900">Suara pemberitahuan</div>
+          <div class="text-xs text-slate-400 mt-0.5">Bantu staf mengenali pesanan baru.</div>
+        </div>
+        <button type="button" onclick="toggleNotifItem(this)" data-active="true" class="text-xs font-bold text-primary hover:underline cursor-pointer shrink-0">
+          ✓ Aktif
+        </button>
+      </div>
+    </div>
+
+    <button type="button" onclick="saveStoreSettings()" class="w-full py-3.5 bg-primary hover:bg-blue-700 text-white rounded-2xl text-xs font-bold shadow-sm transition-colors cursor-pointer">
+      Simpan pengaturan toko
+    </button>
+
+    <div class="bg-white rounded-3xl border border-border/80 p-5 sm:p-6 space-y-3 shadow-2xs">
+      <h3 class="font-extrabold text-base text-slate-900">Keamanan akun</h3>
+
+      <button type="button" onclick="openPasswordModal()" class="w-full py-3 bg-white hover:bg-blue-50 text-primary border border-border rounded-2xl text-xs font-bold transition-colors cursor-pointer">
+        Ubah password
+      </button>
+
+      <p class="text-[11px] text-slate-400">Hanya pemilik yang berwenang dapat mengelola toko ini.</p>
+    </div>
+
+    <button type="button" onclick="handleLogout()" class="w-full py-3.5 text-white bg-rose-700 hover:bg-rose-50 text-primary hover:text-rose-700 border border-border rounded-2xl text-xs font-bold transition-colors cursor-pointer">
+      Keluar dari akun
+    </button>
+
+  </main>
+
+  <div id="password-modal" class="fixed inset-0 z-50 bg-slate-900/50 hidden items-center justify-center p-4 backdrop-blur-[1px]">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-slate-200">
+      <div class="flex items-center justify-between">
+        <h3 class="font-extrabold text-lg text-slate-900">Ubah password</h3>
+        <button onclick="closePasswordModal()" class="p-1.5 rounded-xl text-slate-400 hover:bg-slate-100 cursor-pointer">✕</button>
+      </div>
+
+      <form onsubmit="submitPasswordChange(event)" class="space-y-3.5">
+        <div>
+          <label class="block text-xs font-bold text-slate-800 mb-1">Password saat ini</label>
+          <input type="password" required placeholder="Masukkan password lama" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-primary">
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-slate-800 mb-1">Password baru</label>
+          <input type="password" required minlength="6" placeholder="Minimal 6 karakter" class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-sm focus:outline-none focus:border-primary">
+        </div>
+        <div class="flex gap-2.5 pt-2">
+          <button type="button" onclick="closePasswordModal()" class="flex-1 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold cursor-pointer">Batal</button>
+          <button type="submit" class="flex-1 py-2.5 bg-primary hover:bg-blue-700 text-white rounded-xl text-xs font-bold cursor-pointer">Simpan password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>
