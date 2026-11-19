@@ -1,4 +1,19 @@
+const ADMIN_AUTH_KEY = "komart_admin_logged_in";
 const ADMIN_DB_KEY = "komart_db";
+
+(function checkAdminAuth() {
+  const path = window.location.pathname;
+  const currentPage = path.substring(path.lastIndexOf("/") + 1) || "index.html";
+
+  if (currentPage !== "login.html") {
+    const isLoggedIn = localStorage.getItem(ADMIN_AUTH_KEY) === "true";
+    if (!isLoggedIn) {
+      document.documentElement.style.display = "none";
+      window.location.replace("login.html");
+      throw new Error("Redirecting to login");
+    }
+  }
+})();
 
 const DEFAULT_ADMIN_DB = {
   store: {
