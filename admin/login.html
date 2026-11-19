@@ -16,6 +16,11 @@
       --color-surface: #f8fafc;
     }
   </style>
+  <script>
+    if (localStorage.getItem("komart_admin_logged_in") === "true") {
+      window.location.replace("index.html");
+    }
+  </script>
 </head>
 <body class="bg-surface text-slate-900 font-sans min-h-screen flex flex-col justify-between p-5 sm:p-8">
 
@@ -109,11 +114,10 @@
       const userText = document.getElementById("user-err-text");
       const passText = document.getElementById("pass-err-text");
 
-      // Akun demo valid
       if ((user === "admin" || user === "raka") && pass === "123456") {
-        window.location.href = "index.html";
+        localStorage.setItem("komart_admin_logged_in", "true");
+        window.location.replace("index.html");
       } else {
-        // Tampilkan state error persis seperti desain image_3628c4.png
         banner.classList.remove("hidden");
         
         userInput.classList.remove("border-slate-300");
