@@ -220,7 +220,7 @@ function getMenus(store) {
   for (let i = 0; i < MENU_LIST.length; i++) {
     const menu = MENU_LIST[i];
     if (menu.store === store.name) {
-      menu.image = "../assets/" + menu.id + ".jpg";
+      menu.image = "./assets/" + menu.id + ".jpg";
       result.push(menu);
     }
   }
@@ -231,7 +231,7 @@ function showStore(store) {
   document.title = store.name + " | Komart";
   document.getElementById("storeTitle").textContent = store.name;
   document.getElementById("storeImage").src =
-    "../assets/Toko" + store.id + ".jpg";
+    "./assets/Toko" + store.id + ".jpg";
   document.getElementById("storeImage").alt = store.name;
   document.getElementById("storeDesc").textContent = store.desc;
   document.getElementById("storeRating").textContent = store.rating;

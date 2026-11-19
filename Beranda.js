@@ -91,7 +91,7 @@ function getMenu(item) {
     store: item.dataset.store,
     category: item.dataset.category,
     price: Number(item.dataset.price),
-    image: "../assets/" + item.dataset.id + ".jpg",
+    image: "./assets/" + item.dataset.id + ".jpg",
     rating: item.dataset.rating,
     sold: item.dataset.sold,
     time: item.dataset.time

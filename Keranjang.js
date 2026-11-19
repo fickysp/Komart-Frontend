@@ -64,7 +64,7 @@ function storeHtml(storeName, cart) {
           <h2 class="store-title">${storeName}</h2>
           <p class="store-meta">${storePlace(storeName)} | Ambil di restoran</p>
         </div>
-        <a href="Beranda.html" class="add-link">Tambah menu lain</a>
+        <a href="index.html" class="add-link">Tambah menu lain</a>
       </div>
       ${itemsHtml}
     </section>`;

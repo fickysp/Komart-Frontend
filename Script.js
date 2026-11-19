@@ -286,7 +286,7 @@ function goBack() {
   if (document.referrer !== "" && window.history.length > 1) {
     window.history.back();
   } else {
-    window.location.href = "Beranda.html";
+    window.location.href = "index.html";
   }
 }
 

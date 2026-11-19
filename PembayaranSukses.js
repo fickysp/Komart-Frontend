@@ -2,7 +2,7 @@ function showSuccess() {
   const order = getOrder();
 
   if (order === null) {
-    window.location.href = "Beranda.html";
+    window.location.href = "index.html";
     return;
   }
 
